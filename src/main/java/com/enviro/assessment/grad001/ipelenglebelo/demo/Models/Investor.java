@@ -2,25 +2,52 @@ package com.enviro.assessment.grad001.ipelenglebelo.demo.Models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Investor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+    private String lastName;
     private String address;
-    private String contact;
 
-    private int age;
+    private String street;
+    private LocalDate dateOfBirth;
 
-    //one to many relationship
-    // the relationship is managed by the investor field in the Product entity
+    // Define relationships
     @OneToMany(mappedBy = "investor")
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
-    // Getters and setters for id, name, address, and contact
+    // Constructors
+    public Investor() {
+        // Default constructor
+    }
+
+    public Investor(String name, String lastName, String address, String street, int age) {
+        this.name = name;
+
+    }
+
+    // Add a method to calculate investor's age
+    public int calculateAge() {
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(dateOfBirth, currentDate);
+        return period.getYears();
+    }
+
+    public Investor(String name, String lastName, int age) {
+    }
+
+    // Getters and setters
+
+
     public Long getId() {
         return id;
     }
@@ -37,6 +64,14 @@ public class Investor {
         this.name = name;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -45,23 +80,22 @@ public class Investor {
         this.address = address;
     }
 
-    public String getContact() {
-        return contact;
+    public String getStreet() {
+        return street;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    // Getter and setter for the products relationship
     public List<Product> getProducts() {
         return products;
     }
@@ -69,4 +103,7 @@ public class Investor {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    // Other fields and methods as needed
+
 }
